@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Styler</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <img class="brand-mark" src="icons/icon48.png" alt="" aria-hidden="true">
+        <div>
+          <h1>Text Styler</h1>
+          <p>Unicode styles for social posts</p>
+        </div>
+      </header>
+
+      <section class="input-panel" aria-labelledby="input-label">
+        <div class="panel-topline">
+          <label id="input-label" for="sourceText">Văn bản gốc</label>
+          <span id="charCount" class="char-count">0 ký tự</span>
+        </div>
+        <textarea id="sourceText" rows="5" spellcheck="false" placeholder="Nhập nội dung cần tạo kiểu..."></textarea>
+        <div class="action-row">
+          <button id="sampleBtn" class="ghost-button" type="button">Mẫu</button>
+          <button id="clearBtn" class="ghost-button" type="button">Xóa</button>
+        </div>
+      </section>
+
+      <section class="controls-grid" aria-label="Tùy chọn trang trí">
+        <label class="control-field control-field-wide">
+          <span>Mode</span>
+          <select id="modeSelect">
+            <option value="natural" selected>Vietnamese Natural</option>
+            <option value="fancy">Fancy Unicode</option>
+          </select>
+        </label>
+        <label class="control-field">
+          <span>Prefix</span>
+          <select id="prefixSelect">
+            <option value="">Không</option>
+            <option value="✦ ">✦</option>
+            <option value="◆ ">◆</option>
+            <option value="▸ ">▸</option>
+            <option value="✨ ">✨</option>
+            <option value="【">【</option>
+          </select>
+        </label>
+        <label class="control-field">
+          <span>Suffix</span>
+          <select id="suffixSelect">
+            <option value="">Không</option>
+            <option value=" ✦">✦</option>
+            <option value=" ◆">◆</option>
+            <option value=" ◂">◂</option>
+            <option value=" ✨">✨</option>
+            <option value="】">】</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="output-panel" aria-labelledby="output-label">
+        <div class="panel-topline">
+          <h2 id="output-label">Kiểu chữ</h2>
+          <button id="copyFirstBtn" class="primary-button" type="button">Copy đầu</button>
+        </div>
+        <div id="styleList" class="style-list"></div>
+      </section>
+
+      <footer class="app-footer">
+        <span>by Tuyết Chinh</span>
+        <a href="https://tuyetchinh.com" target="_blank" rel="noreferrer">tuyetchinh.com</a>
+      </footer>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

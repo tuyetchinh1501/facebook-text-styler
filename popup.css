@@ -1,0 +1,358 @@
+:root {
+  --spectrum: linear-gradient(90deg, #c679c4 0%, #fa3d1d 25%, #ffb005 50%, #e1e1fe 75%, #0358f7 100%);
+  --s-red: #fa3d1d;
+  --s-amber: #ffb005;
+  --s-blue: #0358f7;
+  --ink: #000000;
+  --snow: #ffffff;
+  --canvas: #f8f8f8;
+  --fog: #efefef;
+  --pebble: #d9d9d9;
+  --graphite: #636363;
+  --slate: #959595;
+  --steel: #aeaeae;
+  --font: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --shadow: rgba(0, 0, 0, 0.08) 0 0 8px 0;
+  --shadow-hover: rgba(0, 0, 0, 0.13) 0 0 22px 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-width: 320px;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+body {
+  overflow: auto;
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--s-blue);
+  outline-offset: 2px;
+}
+
+.app-shell {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 4px;
+  background: var(--spectrum);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.brand-mark {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--pebble);
+  background: var(--snow);
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+.app-header p {
+  margin: 2px 0 0;
+  color: var(--graphite);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.input-panel,
+.output-panel,
+.control-field {
+  border: 1px solid rgba(217, 217, 217, 0.86);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow);
+}
+
+.input-panel,
+.output-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.panel-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.panel-topline label,
+.panel-topline h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.char-count {
+  color: var(--slate);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+textarea {
+  width: 100%;
+  height: 108px;
+  resize: none;
+  border: 1px solid var(--pebble);
+  border-radius: var(--r-sm);
+  padding: 10px;
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+textarea::placeholder {
+  color: var(--steel);
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.control-field-wide {
+  grid-column: 1 / -1;
+}
+
+.control-field {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+}
+
+.control-field span {
+  color: var(--graphite);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+select {
+  width: 100%;
+  border: 1px solid var(--pebble);
+  border-radius: var(--r-sm);
+  padding: 8px 9px;
+  background: var(--snow);
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.primary-button,
+.ghost-button,
+.copy-button {
+  min-height: 32px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+  white-space: nowrap;
+}
+
+.primary-button:active,
+.ghost-button:active,
+.copy-button:active {
+  transform: scale(0.98) translateY(1px);
+}
+
+.primary-button {
+  padding: 0 12px;
+  background: var(--ink);
+  color: var(--snow);
+  box-shadow: var(--shadow);
+}
+
+.primary-button:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.ghost-button {
+  padding: 0 11px;
+  background: var(--fog);
+  color: var(--ink);
+}
+
+.ghost-button:hover {
+  background: #e9e9e9;
+}
+
+.output-panel {
+  min-height: 0;
+}
+
+.style-list {
+  display: grid;
+  gap: 8px;
+  max-height: none;
+  overflow: visible;
+  padding-right: 2px;
+}
+
+.style-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--pebble);
+  border-radius: var(--r-sm);
+  padding: 9px;
+  background: var(--snow);
+}
+
+.style-meta {
+  min-width: 0;
+}
+
+.style-name {
+  margin: 0 0 4px;
+  color: var(--graphite);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.style-preview {
+  margin: 0;
+  min-height: 20px;
+  color: var(--ink);
+  font-family: "Cambria Math", "Segoe UI Symbol", var(--font);
+  font-size: 14px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.copy-button {
+  padding: 0 10px;
+  background: #fff5d8;
+  color: #3a2a00;
+}
+
+.copy-button:hover {
+  background: #ffedab;
+}
+
+.empty-state {
+  display: grid;
+  min-height: 140px;
+  place-items: center;
+  border: 1px dashed var(--pebble);
+  border-radius: var(--r-sm);
+  color: var(--slate);
+  font-size: 13px;
+  text-align: center;
+}
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 2px 0 0;
+  color: var(--slate);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.app-footer a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+.toast {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  max-width: 220px;
+  padding: 9px 11px;
+  border-radius: var(--r-sm);
+  background: var(--ink);
+  color: var(--snow);
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 420px) {
+  .app-shell {
+    padding: 12px;
+  }
+
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+}
