@@ -9,6 +9,7 @@ A lightweight Chrome Extension for styling text with Unicode characters and copy
 - 16 Unicode text styles.
 - Vietnamese Natural mode for better Vietnamese text handling.
 - Prefix and suffix decoration controls.
+- Saved content signature for reusable post sign-offs and hashtags.
 - Clipboard copy with fallback.
 - Offline-friendly, no CDN, no external font loading.
 
@@ -38,6 +39,10 @@ Unicode mathematical bold/italic alphabets do not include precomposed Vietnamese
 - `popup.js` - Interaction and clipboard handling.
 - `text-styles.js` - Unicode style transforms.
 - `logo.png` and `icons/` - Extension brand assets.
+
+## Content Signature
+
+The side panel includes a saved signature box for reusable content sign-offs, such as a personal brand line and common hashtags. The signature is saved locally in Chrome storage and can be appended to the source text or copied separately.
 
 ## Website
 

@@ -60,6 +60,19 @@
         </label>
       </section>
 
+      <section class="signature-panel" aria-labelledby="signature-label">
+        <div class="panel-topline">
+          <label id="signature-label" for="signatureText">Chữ ký content</label>
+          <span id="signatureStatus" class="char-count">Tự lưu</span>
+        </div>
+        <textarea id="signatureText" class="signature-textarea" rows="4" spellcheck="false" placeholder="Nhập chữ ký dùng cuối bài..."></textarea>
+        <div class="action-row">
+          <button id="signatureSampleBtn" class="ghost-button" type="button">Mẫu</button>
+          <button id="appendSignatureBtn" class="ghost-button" type="button">Thêm vào bài</button>
+          <button id="copySignatureBtn" class="primary-button" type="button">Copy chữ ký</button>
+        </div>
+      </section>
+
       <section class="output-panel" aria-labelledby="output-label">
         <div class="panel-topline">
           <h2 id="output-label">Kiểu chữ</h2>
