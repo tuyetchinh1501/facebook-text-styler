@@ -60,6 +60,14 @@
         </label>
       </section>
 
+      <section class="output-panel" aria-labelledby="output-label">
+        <div class="panel-topline">
+          <h2 id="output-label">Kiểu chữ</h2>
+          <button id="copyFirstBtn" class="primary-button" type="button">Copy đầu</button>
+        </div>
+        <div id="styleList" class="style-list"></div>
+      </section>
+
       <section class="signature-panel" aria-labelledby="signature-label">
         <div class="panel-topline">
           <label id="signature-label" for="signatureText">Chữ ký content</label>
@@ -73,12 +81,18 @@
         </div>
       </section>
 
-      <section class="output-panel" aria-labelledby="output-label">
+      <section class="money-panel" aria-labelledby="money-label">
         <div class="panel-topline">
-          <h2 id="output-label">Kiểu chữ</h2>
-          <button id="copyFirstBtn" class="primary-button" type="button">Copy đầu</button>
+          <label id="money-label" for="moneyInput">Số tiền bằng chữ</label>
+          <span id="moneyStatus" class="char-count">VND</span>
         </div>
-        <div id="styleList" class="style-list"></div>
+        <input id="moneyInput" class="money-input" inputmode="numeric" autocomplete="off" placeholder="Ví dụ: 1250000 hoặc 1.250.000đ">
+        <p id="moneyOutput" class="money-output">Nhập số tiền để chuyển thành chữ</p>
+        <div class="action-row">
+          <button id="moneySampleBtn" class="ghost-button" type="button">Mẫu</button>
+          <button id="appendMoneyBtn" class="ghost-button" type="button">Thêm vào bài</button>
+          <button id="copyMoneyBtn" class="primary-button" type="button">Copy số tiền</button>
+        </div>
       </section>
 
       <footer class="app-footer">

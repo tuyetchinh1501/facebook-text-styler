@@ -26,8 +26,8 @@ A lightweight Chrome Extension for styling text with Unicode characters and copy
 
 Unicode mathematical bold/italic alphabets do not include precomposed Vietnamese letters. This extension uses a practical approach:
 
-- `Vietnamese Natural` keeps Vietnamese text readable when the input mixes Vietnamese with ASCII tokens such as `AI`, `247`, or hashtags.
-- If the whole input is Vietnamese and would otherwise stay unchanged, the extension falls back to combining marks so the text still receives a visible style.
+- `Vietnamese Natural` styles Vietnamese and ASCII text consistently by styling the Latin base letter and preserving Vietnamese tone marks as combining marks.
+- Mixed text such as `Tuyết Chinh - AI 247` keeps one consistent style across Vietnamese words, ASCII tokens, numbers, and hashtags.
 - `Fancy Unicode` applies the strongest stylized transform and is best for English or Vietnamese text without tone marks.
 
 ## Files

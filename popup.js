@@ -1,8 +1,11 @@
 import { textStyles, segmentGraphemes } from "./text-styles.js";
 
-const DEFAULT_TEXT = "Chinh Productivity - Đổi số vận hành 🚀";
-const DEFAULT_SIGNATURE = "Chinh Productivity - Chinh tối ưu việc gọn gàng\n#lark #AIAutomation #chuyenDoiSo";
+const DEFAULT_TEXT = "Tuyết Chinh - Tinh gọn quy trình 🚀";
+const DEFAULT_SIGNATURE = "Tuyết Chinh - Tinh gọn quy trình\n#Lark #AI #Automation #tuyetchinh.com";
+const DEFAULT_MONEY = "1250000";
 const SIGNATURE_STORAGE_KEY = "contentSignature";
+const DIGIT_WORDS = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+const GROUP_UNITS = ["", "nghìn", "triệu"];
 const sourceText = document.querySelector("#sourceText");
 const charCount = document.querySelector("#charCount");
 const styleList = document.querySelector("#styleList");
@@ -11,11 +14,17 @@ const prefixSelect = document.querySelector("#prefixSelect");
 const suffixSelect = document.querySelector("#suffixSelect");
 const signatureText = document.querySelector("#signatureText");
 const signatureStatus = document.querySelector("#signatureStatus");
+const moneyInput = document.querySelector("#moneyInput");
+const moneyStatus = document.querySelector("#moneyStatus");
+const moneyOutput = document.querySelector("#moneyOutput");
 const sampleBtn = document.querySelector("#sampleBtn");
 const clearBtn = document.querySelector("#clearBtn");
 const signatureSampleBtn = document.querySelector("#signatureSampleBtn");
 const appendSignatureBtn = document.querySelector("#appendSignatureBtn");
 const copySignatureBtn = document.querySelector("#copySignatureBtn");
+const moneySampleBtn = document.querySelector("#moneySampleBtn");
+const appendMoneyBtn = document.querySelector("#appendMoneyBtn");
+const copyMoneyBtn = document.querySelector("#copyMoneyBtn");
 const copyFirstBtn = document.querySelector("#copyFirstBtn");
 const toast = document.querySelector("#toast");
 
@@ -33,6 +42,10 @@ function getSourceValue() {
 
 function getSignatureValue() {
   return signatureText.value.trim();
+}
+
+function getMoneyValue() {
+  return moneyOutput.dataset.value ?? "";
 }
 
 function render() {
@@ -53,6 +66,32 @@ function render() {
 
   copyFirstBtn.disabled = false;
   styleList.replaceChildren(...renderedItems.map(createStyleCard));
+}
+
+function renderMoney() {
+  const amount = parseMoneyInput(moneyInput.value);
+
+  if (!moneyInput.value.trim()) {
+    setMoneyOutput("", "Nhập số tiền để chuyển thành chữ", "VND");
+    return;
+  }
+
+  if (!amount) {
+    setMoneyOutput("", "Chỉ hỗ trợ số nguyên dương", "Chưa hợp lệ");
+    return;
+  }
+
+  const words = `${capitalizeFirst(numberToVietnameseWords(amount))} đồng`;
+  setMoneyOutput(words, words, formatMoney(amount));
+}
+
+function setMoneyOutput(value, text, status) {
+  moneyOutput.dataset.value = value;
+  moneyOutput.textContent = text;
+  moneyOutput.classList.toggle("is-empty", !value);
+  moneyStatus.textContent = status;
+  copyMoneyBtn.disabled = !value;
+  appendMoneyBtn.disabled = !value;
 }
 
 function updateSignatureStatus(message = "Tự lưu") {
@@ -127,6 +166,89 @@ function createStyleCard(style) {
   return card;
 }
 
+function parseMoneyInput(value) {
+  const digits = value.replace(/[^\d]/g, "").replace(/^0+(?=\d)/, "");
+  return digits || "";
+}
+
+function formatMoney(value) {
+  return `${value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ`;
+}
+
+function numberToVietnameseWords(value) {
+  if (value === "0") {
+    return DIGIT_WORDS[0];
+  }
+
+  const groups = [];
+  for (let index = value.length; index > 0; index -= 3) {
+    groups.unshift(value.slice(Math.max(0, index - 3), index));
+  }
+
+  const words = [];
+  groups.forEach((group, index) => {
+    const groupNumber = Number(group);
+    if (!groupNumber) {
+      return;
+    }
+
+    const unitIndex = groups.length - index - 1;
+    const shouldReadFull = words.length > 0 && group.length === 3;
+    const groupWords = readThreeDigitGroup(groupNumber, shouldReadFull);
+    const unit = getGroupUnit(unitIndex);
+    words.push(unit ? `${groupWords} ${unit}` : groupWords);
+  });
+
+  return words.join(" ").replace(/\s+/g, " ").trim();
+}
+
+function getGroupUnit(index) {
+  const baseUnit = GROUP_UNITS[index % GROUP_UNITS.length];
+  const billionLevel = Math.floor(index / GROUP_UNITS.length);
+  return [baseUnit, ...Array(billionLevel).fill("tỷ")].filter(Boolean).join(" ");
+}
+
+function readThreeDigitGroup(number, readFull) {
+  const hundreds = Math.floor(number / 100);
+  const tens = Math.floor((number % 100) / 10);
+  const ones = number % 10;
+  const words = [];
+
+  if (hundreds > 0 || readFull) {
+    words.push(DIGIT_WORDS[hundreds], "trăm");
+  }
+
+  if (tens === 0) {
+    if (ones > 0) {
+      if (hundreds > 0 || readFull) {
+        words.push("lẻ");
+      }
+      words.push(DIGIT_WORDS[ones]);
+    }
+    return words.join(" ");
+  }
+
+  if (tens === 1) {
+    words.push("mười");
+  } else {
+    words.push(DIGIT_WORDS[tens], "mươi");
+  }
+
+  if (ones === 1 && tens > 1) {
+    words.push("mốt");
+  } else if (ones === 5) {
+    words.push("lăm");
+  } else if (ones > 0) {
+    words.push(DIGIT_WORDS[ones]);
+  }
+
+  return words.join(" ");
+}
+
+function capitalizeFirst(text) {
+  return text ? `${text[0].toLocaleUpperCase("vi")}${text.slice(1)}` : "";
+}
+
 async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -169,6 +291,7 @@ function showToast(message) {
 }
 
 sourceText.addEventListener("input", render);
+moneyInput.addEventListener("input", renderMoney);
 modeSelect.addEventListener("change", render);
 prefixSelect.addEventListener("change", render);
 suffixSelect.addEventListener("change", render);
@@ -221,6 +344,40 @@ copySignatureBtn.addEventListener("click", () => {
   copyText(signature);
 });
 
+moneySampleBtn.addEventListener("click", () => {
+  moneyInput.value = DEFAULT_MONEY;
+  moneyInput.focus();
+  renderMoney();
+});
+
+appendMoneyBtn.addEventListener("click", () => {
+  const money = getMoneyValue();
+
+  if (!money) {
+    moneyInput.focus();
+    showToast("Chưa có số tiền");
+    return;
+  }
+
+  const sourceValue = getSourceValue();
+  sourceText.value = sourceValue ? `${sourceValue}\n${money}` : money;
+  sourceText.focus();
+  render();
+  showToast("Đã thêm số tiền");
+});
+
+copyMoneyBtn.addEventListener("click", () => {
+  const money = getMoneyValue();
+
+  if (!money) {
+    moneyInput.focus();
+    showToast("Chưa có số tiền");
+    return;
+  }
+
+  copyText(money);
+});
+
 copyFirstBtn.addEventListener("click", () => {
   if (renderedItems[0]) {
     copyText(renderedItems[0].output);
@@ -242,6 +399,7 @@ styleList.addEventListener("click", (event) => {
 async function init() {
   signatureText.value = await loadSignature();
   updateSignatureStatus();
+  renderMoney();
   render();
 }
 

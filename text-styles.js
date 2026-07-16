@@ -33,59 +33,7 @@ function transformAccentWithMap(text, map) {
 }
 
 function transformNaturalWithMap(text, map) {
-  const output = tokenizeText(text)
-    .map((token) => {
-      if (token.type === "word" && hasVietnameseMarks(token.value)) {
-        return token.value;
-      }
-
-      return segmentGraphemes(token.value)
-        .map((segment) => (map[segment] ? map[segment] : segment))
-        .join("");
-    })
-    .join("");
-
-  if (output === text && hasVietnameseMarks(text)) {
-    return transformAccentWithMap(text, map);
-  }
-
-  return output;
-}
-
-function tokenizeText(text) {
-  const tokens = [];
-  let current = "";
-  let currentType = null;
-
-  for (const segment of segmentGraphemes(text)) {
-    const type = isWordSegment(segment) ? "word" : "other";
-
-    if (currentType && type !== currentType) {
-      tokens.push({ type: currentType, value: current });
-      current = "";
-    }
-
-    currentType = type;
-    current += segment;
-  }
-
-  if (current) {
-    tokens.push({ type: currentType, value: current });
-  }
-
-  return tokens;
-}
-
-function isWordSegment(segment) {
-  try {
-    return /[\p{L}\p{N}_#@]/u.test(segment);
-  } catch {
-    return /[A-Za-z0-9_#@]/.test(segment);
-  }
-}
-
-function hasVietnameseMarks(text) {
-  return /[đĐ]/.test(text) || /[\u0300-\u036f]/.test(text.normalize("NFD"));
+  return transformAccentWithMap(text, map);
 }
 
 function transformSegmentWithMap(segment, map) {
@@ -316,18 +264,7 @@ function mapLowerToUpper(upperMap) {
 
 function transformUpsideDown(text, options = {}) {
   if (options.mode === NATURAL_MODE) {
-    return tokenizeText(text)
-      .map((token) => {
-        if (token.type === "word" && hasVietnameseMarks(token.value)) {
-          return token.value;
-        }
-
-        return segmentGraphemes(token.value)
-          .reverse()
-          .map((segment) => upsideDown[segment] ?? segment)
-          .join("");
-      })
-      .join("");
+    return transformAccentWithMap(text, upsideDown);
   }
 
   return segmentGraphemes(text)
